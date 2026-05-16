@@ -1,0 +1,22 @@
+name: Market Alert Daily
+on:
+  schedule:
+    # 日本時間の【朝6時、昼15時、夜21時】に自動実行する設定
+    - cron: '0 6,12,21 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run script
+        run: python market_alert.py
